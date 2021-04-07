@@ -220,10 +220,11 @@ public final class Board {
             Cell cell = grid[i][j];
             if(cell.isEmpty() || cell.isLake()) continue;
             Piece piece = cell.getPiece();
-            if(!(red^piece.red) && ) MovablesNumber++;            
+            if(red&&piece.red&&piece.character == 'f') hasFlag = true;
+            if(!red&&!piece.red&&piece.character == 'F') hasFlag = true;          
          }
       }
-      return MovablesNumber;
+      return hasFlag;
    }
    
    /**
@@ -234,7 +235,14 @@ public final class Board {
    trapped, false otherwise.
    */
    public boolean isTrapped(Cell cell) {
-      return false; // REPLACE ME
+      boolean isTrapped = true;
+      int row = cell.getRow();
+      int column = cell.getColumn();
+      if(grid[row-1][column].isEmpty())isTrapped = false;
+      if(grid[row+1][column].isEmpty())isTrapped = false;
+      if(grid[row][column-1].isEmpty())isTrapped = false;
+      if(grid[row][column+1].isEmpty())isTrapped = false;
+      return isTrapped;
    }
    
    /** return turn. 

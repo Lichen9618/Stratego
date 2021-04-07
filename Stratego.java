@@ -12,7 +12,27 @@ public class Stratego {
       @return whether the move is allowed.
    */
    public static boolean crossesAnotherPiece(Board board, Move move) {
-      return false; // REPLAC ME
+      boolean isCrossesAnotherPiece = false;
+      if(move.getDr() == move.getSr()){
+         for( int i = move.getSc(); i != move.getDc();){
+            if(i < move.getDc()){
+               i++;
+            }else{
+               i--;
+            }
+            if(!board.getGrid()[move.getDr()][i].isEmpty()) isCrossesAnotherPiece = true;
+         }
+      }else{
+         for( int i = move.getSr(); i != move.getDr();){
+            if(i < move.getDr()){
+               i++;
+            }else{
+               i--;
+            }
+            if(!board.getGrid()[i][move.getDc()].isEmpty()) isCrossesAnotherPiece = true;
+         }
+      }
+      return isCrossesAnotherPiece;
    }
 
 
@@ -22,6 +42,10 @@ public class Stratego {
       @return whether the rules are met.
    */
    public static boolean twoSquareRule(Board board, Move move) {
+      Move[] moves = board.getL2Moves(board.getTurn());
+      if(moves[0].isOpposite(move)){
+         return true;
+      }       
       return false; // REPLACE ME
    }
     
@@ -44,7 +68,27 @@ public class Stratego {
       @return whether the move would cross a lake
    */
    public static boolean crossesLake(Board board, Move move) {
-      return false; // REPLACE ME
+      boolean isCrossesLake = false;
+      if(move.getDr() == move.getSr()){
+         for( int i = move.getSc(); i != move.getDc();){
+            if(i < move.getDc()){
+               i++;
+            }else{
+               i--;
+            }
+            if(board.getGrid()[move.getDr()][i].isLake()) isCrossesLake = true;
+         }
+      }else{
+         for( int i = move.getSr(); i != move.getDr();){
+            if(i < move.getDr()){
+               i++;
+            }else{
+               i--;
+            }
+            if(board.getGrid()[i][move.getDc()].isLake()) isCrossesLake = true;
+         }
+      }
+      return isCrossesLake;
    }
    
    /** Method to get the winner of an attack.
@@ -56,7 +100,7 @@ public class Stratego {
       2 means both lose
       3 invalid, something is wrong!
    */
-   public static int getWinner(Piece att, Piece def) {
+   public static int getWinner(Piece att, Piece def) {   
       return -1; // REPLACE ME
    }
 }
