@@ -43,10 +43,7 @@ public class Stratego {
    */
    public static boolean twoSquareRule(Board board, Move move) {
       Move[] moves = board.getL2Moves(board.getTurn());
-      if(moves[0].isOpposite(move)){
-         return true;
-      }       
-      return false; // REPLACE ME
+      return moves[0].isOpposite(move);
    }
     
    /** Method to check whether the game is over.

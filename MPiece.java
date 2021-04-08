@@ -24,8 +24,41 @@ public class MPiece extends Piece{
    }
 
    public boolean makeMove(Board board, Move move){
-       boolean result = false;
-       return result;
+       Cell[][] newGrid = board.getGrid();
+       if(!isLegalMove(move)) return false;
+       Cell destinationCell = board.getGrid()[move.getDr()][move.getDc()];
+       Cell sourceCell = board.getGrid()[move.getSr()][move.getSc()];
+       if(destinationCell.isEmpty()){
+           //move part
+           newGrid[move.getSr()][move.getSc()] = new Cell(destinationCell.getPiece(), move.getSr(), move.getSc());
+           newGrid[move.getDr()][move.getDc()] = new Cell(sourceCell.getPiece(), move.getDr(), move.getDc());
+           board.setGrid((newGrid));
+           return true;
+       }else{
+           switch(Stratego.getWinner(sourceCell.getPiece(), destinationCell.getPiece())){
+               case 0:
+                    //attacker win, source is empty, destination is source piece
+                    newGrid[move.getSr()][move.getSc()] = new Cell(move.getSr(), move.getSc(), false);
+                    newGrid[move.getDr()][move.getDc()] = new Cell(sourceCell.getPiece(), move.getDr(), move.getDc());
+                    board.setGrid(newGrid);
+                    break;
+               case 1:
+                    //defender win, source is empty, destination is destination piece
+                    newGrid[move.getSr()][move.getSc()] = new Cell(move.getSr(), move.getSc(), false);
+                    board.setGrid(newGrid);
+                    break;
+               case 2:
+                    //both lose, source is empty, destination is empty
+                    newGrid[move.getSr()][move.getSc()] = new Cell(move.getSr(), move.getSc(), false);
+                    newGrid[move.getDr()][move.getDc()] = new Cell(move.getDr(), move.getDc(), false);
+                    board.setGrid(newGrid);
+                    break;
+                default:
+                return false;
+           }
+            //fight part
+       }
+       return true;
    }
    
    /** getter for flag.
