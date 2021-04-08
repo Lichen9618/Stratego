@@ -101,6 +101,30 @@ public class Stratego {
       3 invalid, something is wrong!
    */
    public static int getWinner(Piece att, Piece def) {   
-      return -1; // REPLACE ME
+      if(!(att instanceof MPiece)) return 3;
+      MPiece attacker = (MPiece)att;
+      //flag or bomb
+      if(!(def instanceof MPiece)){         
+         if(def.getCharacter() == 'f' || def.getCharacter() == 'F'){
+            return 0;
+         }
+         //not flag, bomb
+         if(attacker.character == 'o' || attacker.character == 'O'){
+            return 0;
+         }else{
+            return 1;
+         }
+      }else{
+         if(attacker.character == 'y' || attacker.character == 'Y'){
+            if(def.character == 'y'||def.character == 'Y') return 2;
+            if(def.character == 'm'||def.character == 'M') return 0;
+            return 1;       
+         }else{
+            MPiece defender = (MPiece)def;
+            if(attacker.getRank() > defender.getRank()) return 0;
+            if(attacker.getRank() == defender.getRank()) return 2;
+            return 1;
+         }
+      }
    }
 }
