@@ -220,8 +220,8 @@ public final class Board {
             Cell cell = grid[i][j];
             if(cell.isEmpty() || cell.isLake()) continue;
             Piece piece = cell.getPiece();
-            if(red&&piece.red&&piece.character == 'f') hasFlag = true;
-            if(!red&&!piece.red&&piece.character == 'F') hasFlag = true;          
+            if(red&&piece.red&&piece.character == 'F') hasFlag = true;
+            if(!red&&!piece.red&&piece.character == 'f') hasFlag = true;          
          }
       }
       return hasFlag;

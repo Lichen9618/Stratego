@@ -33,8 +33,8 @@ public class MPiece extends Piece{
            newGrid[move.getSr()][move.getSc()] = new Cell(destinationCell.getPiece(), move.getSr(), move.getSc());
            newGrid[move.getDr()][move.getDc()] = new Cell(sourceCell.getPiece(), move.getDr(), move.getDc());
            board.setGrid((newGrid));
-           return true;
        }else{
+           //fight part
            switch(Stratego.getWinner(sourceCell.getPiece(), destinationCell.getPiece())){
                case 0:
                     //attacker win, source is empty, destination is source piece
@@ -55,9 +55,9 @@ public class MPiece extends Piece{
                     break;
                 default:
                 return false;
-           }
-            //fight part
+           }         
        }
+       board.setLMove(move, board.getTurn());
        return true;
    }
    
@@ -76,7 +76,7 @@ public class MPiece extends Piece{
    }
 
    public int getRank(){
-       return rank;
+       return characterAndRankMap(this.character);
    }
 
    @Override

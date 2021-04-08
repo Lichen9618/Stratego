@@ -12,7 +12,6 @@ public class Stratego {
       @return whether the move is allowed.
    */
    public static boolean crossesAnotherPiece(Board board, Move move) {
-      boolean isCrossesAnotherPiece = false;
       if(move.getDr() == move.getSr()){
          for( int i = move.getSc(); i != move.getDc();){
             if(i < move.getDc()){
@@ -20,7 +19,11 @@ public class Stratego {
             }else{
                i--;
             }
-            if(!board.getGrid()[move.getDr()][i].isEmpty()) isCrossesAnotherPiece = true;
+            if(i == move.getDc()){
+               if(board.getGrid()[move.getDr()][move.getDc()].isEmpty() || board.getGrid()[move.getSr()][move.getSc()].getPiece().red != board.getGrid()[move.getDr()][move.getDc()].getPiece().red)
+               return false;
+            }
+            if(!board.getGrid()[move.getDr()][i].isEmpty()) return true;
          }
       }else{
          for( int i = move.getSr(); i != move.getDr();){
@@ -29,10 +32,14 @@ public class Stratego {
             }else{
                i--;
             }
-            if(!board.getGrid()[i][move.getDc()].isEmpty()) isCrossesAnotherPiece = true;
+            if(i == move.getDr()){
+               if(board.getGrid()[move.getDr()][move.getDc()].isEmpty() || board.getGrid()[move.getSr()][move.getSc()].getPiece().red != board.getGrid()[move.getDr()][move.getDc()].getPiece().red)
+               return false;
+            }
+            if(!board.getGrid()[i][move.getDc()].isEmpty()) return true;
          }
       }
-      return isCrossesAnotherPiece;
+      return false;
    }
 
 
@@ -43,7 +50,7 @@ public class Stratego {
    */
    public static boolean twoSquareRule(Board board, Move move) {
       Move[] moves = board.getL2Moves(board.getTurn());
-      return moves[0].isOpposite(move);
+      return !moves[0].isOpposite(move);
    }
     
    /** Method to check whether the game is over.
@@ -54,7 +61,10 @@ public class Stratego {
       2 for blue wins
    */
    public static int isGameOver(Board board) {
-      return -1;  // REPLACE ME
+      //no flag or no movable piece
+      if(!board.hasFlag(true) || board.getCountMovables(true) == 0) return 2;
+      if(!board.hasFlag(false)|| board.getCountMovables(false) ==0) return 1;      
+      return 0;
    }
 
    /**Method to check whether a move would cross a 
